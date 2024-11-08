@@ -133,7 +133,7 @@ function Library:AddWindows()
     AnNigga.ScrollBarThickness = 0
 
     game:GetService("RunService").Stepped:Connect(function()
-        AnNigga.CanvasSize = UDim2.new(0, UIListLayout.AbsoluteContentSize.X + 20, 0, 0)
+        AnNigga.CanvasSize = UDim2.new(0, UIListLayout.AbsoluteContentSize.X + 40, 0, 0)
     end)
 
     UIPadding.Parent = AnNigga
@@ -182,6 +182,8 @@ function Library:AddWindows()
     CloseUI.BorderSizePixel = 0
     CloseUI.Position = UDim2.new(0.130987287, 0, 0.10569106, 0)
     CloseUI.Size = UDim2.new(0, 45, 0, 45)
+    CloseUI.Draggable = true
+    CloseUI.Active = true
     
     UICorner_47.Parent = CloseUI
     
@@ -1100,7 +1102,7 @@ function Library:AddWindows()
                 InputFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 InputFrame.BorderSizePixel = 0
                 InputFrame.Position = UDim2.new(0.0370000005, 0, 0.398000002, 4)
-                InputFrame.Size = UDim2.new(0, 240, 0, 24)
+                InputFrame.Size = UDim2.new(0, 185, 0, 24)
                 
                 UICorner_25.CornerRadius = UDim.new(0, 3)
                 UICorner_25.Parent = InputFrame
