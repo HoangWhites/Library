@@ -50,6 +50,200 @@ makedraggable = function (topbar, object)
 	end)
 end
 
+function Library:AddNotify(ConfigNotify)
+    ConfigNotify = ConfigNotify or {}
+    ConfigNotify.Title = ConfigNotify.Title or "Notification"
+    ConfigNotify.Content = ConfigNotify.Content or "This Is Notification"
+    ConfigNotify.Time = ConfigNotify.Time or 5
+
+    spawn(function()
+        if not game.Players.LocalPlayer.PlayerGui:FindFirstChild("NotifyGay") then
+            local UniqueNotify = Instance.new("ScreenGui")
+            UniqueNotify.Name = "NotifyGay"
+            UniqueNotify.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+            UniqueNotify.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+        end
+        if not game.Players.LocalPlayer.PlayerGui:WaitForChild("NotifyGay"):FindFirstChild("NotifyLayout") then
+            local NotifyLayout = Instance.new("Frame")
+            NotifyLayout.Name = "NotifyLayout"
+            NotifyLayout.Parent = game.Players.LocalPlayer.PlayerGui:WaitForChild("NotifyGay")
+            NotifyLayout.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            NotifyLayout.BackgroundTransparency = 1.000
+            NotifyLayout.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            NotifyLayout.BorderSizePixel = 0
+            NotifyLayout.Position = UDim2.new(1, 200, 1, -100)
+            NotifyLayout.Size = UDim2.new(0, 200, 0, 63)
+            local Count = 0
+            game.Players.LocalPlayer.PlayerGui:WaitForChild("NotifyGay").NotifyLayout.ChildRemoved:Connect(function()
+                for r, v in next, game.Players.LocalPlayer.PlayerGui:WaitForChild("NotifyGay").NotifyLayout:GetChildren() do
+                    TweenService:Create(v, TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Position = UDim2.new(0, 0, 1, -((v.Size.Y.Offset + 12) * Count))}):Play()
+                    Count = Count + 1
+                end
+            end)
+        end
+        local NotifyPosHeigh = 0
+        for i, v in game.Players.LocalPlayer.PlayerGui:WaitForChild("NotifyGay").NotifyLayout:GetChildren() do
+            NotifyPosHeigh = -(v.Position.Y.Offset) + v.Size.Y.Offset + 12
+        end
+        local NotifyReal = Instance.new("Frame")
+        local UICorner = Instance.new("UICorner")
+        local Title = Instance.new("TextLabel")
+        local UIPadding = Instance.new("UIPadding")
+        local Desc = Instance.new("TextLabel")
+        local UIPadding_2 = Instance.new("UIPadding")
+        local Time = Instance.new("Frame")
+        local Close = Instance.new("Frame")
+        local Logo = Instance.new("ImageLabel")
+        local Click = Instance.new("TextButton")
+        local DropShadowHolder = Instance.new("Frame")
+        local DropShadow = Instance.new("ImageLabel")
+        local NotifyFunc = {}
+
+        NotifyReal.Name = "NotifyReal"
+        NotifyReal.Parent = game.Players.LocalPlayer.PlayerGui:WaitForChild("NotifyGay"):FindFirstChild("NotifyLayout")
+        NotifyReal.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+        NotifyReal.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        NotifyReal.BorderSizePixel = 0
+        NotifyReal.Position = UDim2.new(0, 0, 0, -(NotifyPosHeigh))
+        NotifyReal.Size = UDim2.new(0, 200, 0, 66)
+
+        UICorner.CornerRadius = UDim.new(0, 4)
+        UICorner.Parent = NotifyReal
+
+        Title.Name = "Title"
+        Title.Parent = NotifyReal
+        Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Title.BackgroundTransparency = 1.000
+        Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Title.BorderSizePixel = 0
+        Title.Size = UDim2.new(1, 0, 0, 20)
+        Title.Font = Enum.Font.GothamBold
+        Title.Text = ConfigNotify.Title
+        Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Title.TextSize = 14.000
+        Title.TextXAlignment = Enum.TextXAlignment.Left
+
+        UIPadding.Parent = Title
+        UIPadding.PaddingLeft = UDim.new(0, 12)
+        UIPadding.PaddingTop = UDim.new(0, 7)
+
+        Desc.Name = "Desc"
+        Desc.Parent = NotifyReal
+        Desc.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Desc.BackgroundTransparency = 1.000
+        Desc.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Desc.BorderSizePixel = 0
+        Desc.Position = UDim2.new(0, 0, 0, 23)
+        Desc.Size = UDim2.new(1, 0, 1, -23)
+        Desc.Font = Enum.Font.GothamBold
+        Desc.Text = ConfigNotify.Content
+        Desc.TextColor3 = Color3.fromRGB(144, 144, 144)
+        Desc.TextSize = 12.000
+        Desc.TextWrapped = true
+        Desc.TextXAlignment = Enum.TextXAlignment.Left
+        Desc.TextYAlignment = Enum.TextYAlignment.Top
+
+        UIPadding_2.Parent = Desc
+        UIPadding_2.PaddingLeft = UDim.new(0, 12)
+        UIPadding_2.PaddingTop = UDim.new(0, 2)
+
+        Time.Name = "Time"
+        Time.Parent = NotifyReal
+        Time.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Time.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Time.BorderSizePixel = 0
+        Time.Size = UDim2.new(1, 0, 0, 1)
+
+        Close.Name = "Close"
+        Close.Parent = NotifyReal
+        Close.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Close.BackgroundTransparency = 1.000
+        Close.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Close.BorderSizePixel = 0
+        Close.Position = UDim2.new(1, -20, 0, 0)
+        Close.Size = UDim2.new(0, 20, 0, 20)
+
+        Logo.Name = "Logo"
+        Logo.Parent = Close
+        Logo.AnchorPoint = Vector2.new(0.5, 0.5)
+        Logo.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Logo.BackgroundTransparency = 1.000
+        Logo.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Logo.BorderSizePixel = 0
+        Logo.Position = UDim2.new(0.5, 0, 0.5, 0)
+        Logo.Size = UDim2.new(0, 10, 0, 10)
+        Logo.Image = "http://www.roblox.com/asset/?id=77914344378314"
+
+        Click.Name = "Click"
+        Click.Parent = Close
+        Click.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Click.BackgroundTransparency = 1.000
+        Click.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        Click.BorderSizePixel = 0
+        Click.Size = UDim2.new(1, 0, 1, 0)
+        Click.Font = Enum.Font.SourceSans
+        Click.Text = ""
+        Click.TextColor3 = Color3.fromRGB(0, 0, 0)
+        Click.TextSize = 14.000
+
+        DropShadowHolder.Name = "DropShadowHolder"
+        DropShadowHolder.Parent = NotifyFrame
+        DropShadowHolder.BackgroundTransparency = 1.000
+        DropShadowHolder.BorderSizePixel = 0
+        DropShadowHolder.Size = UDim2.new(1, 0, 1, 0)
+        DropShadowHolder.ZIndex = 0
+
+        DropShadow.Name = "DropShadow"
+        DropShadow.Parent = DropShadowHolder
+        DropShadow.AnchorPoint = Vector2.new(0.5, 0.5)
+        DropShadow.BackgroundTransparency = 1.000
+        DropShadow.BorderSizePixel = 0
+        DropShadow.Position = UDim2.new(0.5, 0, 0.5, 0)
+        DropShadow.Size = UDim2.new(1, 50, 1, 50)
+        DropShadow.ZIndex = 0
+        DropShadow.Image = "rbxassetid://6015897843"
+        DropShadow.ImageColor3 = Color3.fromRGB(106, 117, 135)
+        DropShadow.ImageTransparency = 0.500
+        DropShadow.ScaleType = Enum.ScaleType.Slice
+        DropShadow.SliceCenter = Rect.new(49, 49, 450, 450)
+
+        local waitbruh = false
+        function NotifyFunc:Close()
+            if waitbruh then
+                return false
+            end
+            waitbruh = true
+            TweenService:Create(
+                NotifyReal,
+                TweenInfo.new(tonumber(.2), Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
+                {Position = UDim2.new(0, 400, 0, 0)}
+            ):Play()
+            task.wait(tonumber(ConfigNotify.Time) / 1.2)
+            game.Players.LocalPlayer.PlayerGui.NotifyGay.NotifyLayout:Destroy()
+        end
+        Click.MouseButton1Click:Connect(
+            function()
+                NotifyFunc:Close()
+            end
+        )
+        TweenService:Create(
+            NotifyReal,
+            TweenInfo.new(tonumber(.2), Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
+            {Position = UDim2.new(0, -444, 1, -(NotifyPosHeigh) - 20)}
+        ):Play()
+        Time:TweenSize(UDim2.new(0, 0, 0, 1),"Out","Quad",tonumber(ConfigNotify.Time),true)
+        task.wait(tonumber(ConfigNotify.Time))
+        TweenService:Create(
+            NotifyReal,
+            TweenInfo.new(tonumber(.2), Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
+            {Position = UDim2.new(1, -0, 1, -(NotifyPosHeigh) - 20)}
+        ):Play()
+        task.wait(tonumber(2))
+        NotifyFunc:Close()
+        return NotifyFunc
+    end)
+end
+
 function Library:AddWindows()
     local ScreenShit = Instance.new("ScreenGui")
     local AnDzGUI = Instance.new("Frame")
@@ -133,7 +327,7 @@ function Library:AddWindows()
     AnNigga.ScrollBarThickness = 0
 
     game:GetService("RunService").Stepped:Connect(function()
-        AnNigga.CanvasSize = UDim2.new(0, UIListLayout.AbsoluteContentSize.X + 40, 0, 0)
+        AnNigga.CanvasSize = UDim2.new(0, UIListLayout.AbsoluteContentSize.X + 100, 0, 0)
     end)
 
     UIPadding.Parent = AnNigga
