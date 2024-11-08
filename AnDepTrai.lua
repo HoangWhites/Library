@@ -409,6 +409,9 @@ function Library:AddWindows()
             AnDzGUI.Visible = true
         end
     end)
+
+    makedraggable(Click_3, CloseUI)
+
     makedraggable(TOP, AnDzGUI)
     local CountTab = 1
     local TabFunc = {}
